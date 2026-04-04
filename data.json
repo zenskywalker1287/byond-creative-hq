@@ -1,0 +1,72 @@
+[
+  {
+    "id": "default",
+    "name": "Engine Command",
+    "accent": "#C9A96E",
+    "subtitle": "Select a campaign to enter the war room.",
+    "overview": {
+      "stats": [
+        {"label": "Active Campaigns", "value": "12"},
+        {"label": "Total Brands", "value": "3"},
+        {"label": "Recent Activity", "value": "High"}
+      ]
+    }
+  },
+  {
+    "id": "gruns",
+    "name": "Grüns",
+    "accent": "#4CAF50",
+    "lockedConfig": {
+      "strategy": true,
+      "headlines": false,
+      "calendar": true,
+      "visual": false,
+      "email": true,
+      "influencer": true,
+      "paid": true,
+      "assets": true
+    },
+    "tabs": {
+      "overview": {
+        "campaignName": "Green Wellness Q2",
+        "thesis": "Positioning gummy nutrition as a non-negotiable morning ritual for high-performers.",
+        "targetAvatar": "Busy urban executives (28-45) who skip breakfast but value long-term vitality.",
+        "duration": "90 Days",
+        "keyStats": "12.4% projected lift in LTV"
+      },
+      "strategy": [
+        "The 'Inertia Breaker' – Addressing the difficulty of starting high-friction habits.",
+        "Cognitive Ease – Nutrition doesn't have to be a pill or a powder.",
+        "The Vitality Loop – Better mornings lead to better evenings."
+      ],
+      "headlines": [
+        "Stop swallowing pills. Start eating Greens.",
+        "The morning ritual for those who don't have time for rituals.",
+        "8 veggies. 2 gummies. 0 excuses."
+      ],
+      "calendar": [
+        {"phase": "Phase 1: The Hook", "channel": "Email / Meta", "date": "April 10-20"},
+        {"phase": "Phase 2: The Education", "channel": "SMS / Email", "date": "April 21-May 5"}
+      ],
+      "visual": {
+        "shotList": "Macro close-ups of gummy texture, early morning sunlight on kitchen counters, minimalist packaging.",
+        "aesthetic": "High-contrast, clean, airy but saturated. Luxury wellness."
+      }
+    }
+  },
+  {
+    "id": "richhaircity",
+    "name": "Rich Hair City",
+    "accent": "#2DD4BF",
+    "lockedConfig": {
+      "strategy": true,
+      "headlines": true,
+      "calendar": true,
+      "visual": true,
+      "email": true,
+      "influencer": true,
+      "paid": true,
+      "assets": true
+    }
+  }
+]

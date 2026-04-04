@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENGINE COMMAND — CREATIVE HQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <div class="grain-overlay"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+        const { motion, AnimatePresence } = FramerMotion;
+
+        const App = () => {
+            const [isOnline, setIsOnline] = useState(false);
+
+            useEffect(() => {
+                fetch('data.json')
+                    .then(res => res.json())
+                    .then(data => setBrands(data));
+                
+                // Detect if running on GitHub Pages or locally
+                setIsOnline(window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1' && window.location.protocol !== 'file:');
+            }, []);
+
+            const currentBrand = useMemo(() => 
+                brands.find(b => b.id === selectedBrandId) || brands.find(b => b.id === 'default'),
+            [brands, selectedBrandId]);
+
+            useEffect(() => {
+                if (currentBrand) {
+                    document.documentElement.style.setProperty('--accent-color', currentBrand.accent);
+                    const hex = currentBrand.accent.replace('#', '');
+                    const r = parseInt(hex.substring(0, 2), 16);
+                    const g = parseInt(hex.substring(2, 4), 16);
+                    const b = parseInt(hex.substring(4, 6), 16);
+                    document.documentElement.style.setProperty('--accent-rgb', `${r}, ${g}, ${b}`);
+                }
+            }, [currentBrand]);
+
+            const handleUnlock = (e) => {
+                e.preventDefault();
+                if (password === 'ENGINE') {
+                    setIsUnlocked(true);
+                    setShowUnlockPrompt(false);
+                    setPassword('');
+                } else {
+                    alert('CLEARANCE DENIED.');
+                }
+            };
+
+            const tabs = [
+                { id: 'overview', label: 'Overview' },
+                { id: 'strategy', label: 'Life Forces / Strategy' },
+                { id: 'headlines', label: 'Headlines & Hooks' },
+                { id: 'calendar', label: 'Campaign Calendar' },
+                { id: 'visual', label: 'Visual Direction' },
+                { id: 'email', label: 'Email Flows' },
+                { id: 'influencer', label: 'Influencer Briefs' },
+                { id: 'paid', label: 'Paid Social' },
+                { id: 'assets', label: 'Assets & Links' }
+            ];
+
+            if (!currentBrand) return <div className="loading mono">INITIALIZING SYSTEM...</div>;
+
+            const dashboardTitle = isOnline ? "ZATREIDES CREATIVES" : "BYOND CREATIVE";
+            const dashboardSubtitle = isOnline ? "EXTERNAL COMMAND — STRATEGIC HQ" : "INTERNAL COMMAND — CREATIVE HQ";
+
+            return (
+                <div className="app-container">
+                    <aside className="sidebar">
+                        <div className="sidebar-header">
+                            <h2 className="heading-condensed" onClick={() => {setSelectedBrandId('default'); setIsUnlocked(false);}} style={{cursor: 'pointer'}}>
+                                {isOnline ? 'ZATREIDES' : 'BYOND'} <span style={{color: 'var(--accent-color)'}}>{isOnline ? 'CREATIVES' : 'CREATIVE'}</span>
+                            </h2>
+                            <div className="mono" style={{fontSize: '0.6rem', marginTop: '0.2rem', opacity: 0.5}}>{dashboardSubtitle}</div>
+                        </div>
+
+
+                        <div className="brand-list">
+                            <div className="mono" style={{fontSize: '0.7rem', opacity: 0.4, marginBottom: '0.5rem'}}>CAMPAIGNS</div>
+                            {brands.filter(b => b.id !== 'default').map(brand => (
+                                <motion.div 
+                                    key={brand.id}
+                                    className={`brand-card ${selectedBrandId === brand.id ? 'active' : ''}`}
+                                    onClick={() => {
+                                        setSelectedBrandId(brand.id);
+                                        setActiveTab('overview');
+                                        setIsUnlocked(false);
+                                    }}
+                                    whileHover={{ x: 4 }}
+                                >
+                                    <div className="heading-condensed" style={{fontSize: '1.1rem'}}>{brand.name}</div>
+                                    <div className="mono" style={{fontSize: '0.6rem', opacity: 0.6}}>STATUS: {brand.id === 'gruns' ? 'ACTIVE' : 'INITIALIZING'}</div>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        <div style={{marginTop: 'auto'}}>
+                            <div className="mono" style={{fontSize: '0.7rem', opacity: 0.4}}>OPERATOR</div>
+                            <div className="heading-condensed" style={{fontSize: '1rem'}}>ZATREIDES DIRECTOR</div>
+                            <button 
+                                className="mono" 
+                                style={{
+                                    marginTop: '1rem', 
+                                    background: 'none', 
+                                    border: '1px solid var(--border-color)', 
+                                    color: 'var(--accent-color)',
+                                    padding: '0.3rem 0.6rem',
+                                    fontSize: '0.6rem',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={() => setShowUnlockPrompt(true)}
+                            >
+                                {isUnlocked ? '[ ACCESS: GRANTED ]' : '[ AUTHORIZE ACCESS ]'}
+                            </button>
+                        </div>
+                    </aside>
+
+                    <main className="main-content">
+                        <header style={{marginBottom: '3rem'}}>
+                            <motion.div 
+                                key={currentBrand.id}
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <h1 style={{fontSize: '3.5rem', lineHeight: 1}}>{selectedBrandId === 'default' ? dashboardTitle : currentBrand.name}</h1>
+                                <p className="mono" style={{marginTop: '0.5rem'}}>{selectedBrandId === 'default' ? dashboardSubtitle : (currentBrand.subtitle || `${currentBrand.name} // WAR ROOM`)}</p>
+                            </motion.div>
+                        </header>
+
+                        {selectedBrandId !== 'default' && (
+                            <nav className="tab-nav">
+                                {tabs.map(tab => (
+                                    <div 
+                                        key={tab.id}
+                                        className={`tab-link ${activeTab === tab.id ? 'active' : ''}`}
+                                        onClick={() => setActiveTab(tab.id)}
+                                    >
+                                        {tab.label}
+                                        {currentBrand.lockedConfig?.[tab.id] && !isUnlocked && (
+                                            <span style={{marginLeft: '0.5rem', fontSize: '0.7rem', opacity: 0.5}}>🔒</span>
+                                        )}
+                                    </div>
+                                ))}
+                            </nav>
+                        )}
+
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={`${selectedBrandId}-${activeTab}-${isUnlocked}`}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.3 }}
+                                className="tab-content"
+                            >
+                                {selectedBrandId === 'default' ? (
+                                    <DefaultDashboard currentBrand={currentBrand} />
+                                ) : (
+                                    <WorkspaceContent 
+                                        brand={currentBrand} 
+                                        activeTab={activeTab} 
+                                        isUnlocked={isUnlocked} 
+                                        onUnlockClick={() => setShowUnlockPrompt(true)}
+                                    />
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
+                    </main>
+
+                    {showUnlockPrompt && (
+                        <div className="unlock-overlay" style={{
+                            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                            background: 'rgba(0,0,0,0.92)', zIndex: 2000,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            backdropFilter: 'blur(8px)'
+                        }}>
+                            <motion.form 
+                                onSubmit={handleUnlock}
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                style={{
+                                    border: '1px solid var(--accent-color)',
+                                    padding: '3rem', background: '#0A0A0A',
+                                    textAlign: 'center', maxWidth: '400px', width: '90%'
+                                }}
+                            >
+                                <div className="mono" style={{marginBottom: '1rem', color: 'var(--accent-color)'}}>— SECURITY CHECK —</div>
+                                <h2 className="heading-condensed" style={{marginBottom: '2rem'}}>CLEARANCE REQUIRED</h2>
+                                <input 
+                                    type="password" 
+                                    placeholder="COMMAND PASSWORD"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    autoFocus
+                                    style={{
+                                        width: '100%', padding: '1rem', background: '#111',
+                                        border: '1px solid var(--border-color)', color: '#fff',
+                                        fontFamily: 'JetBrains Mono', textAlign: 'center',
+                                        marginBottom: '1.5rem', outline: 'none'
+                                    }}
+                                />
+                                <button type="submit" className="heading-condensed" style={{
+                                    width: '100%', padding: '1rem', background: 'var(--accent-color)',
+                                    color: '#000', border: 'none', cursor: 'pointer'
+                                }}>INITIALIZE OVERRIDE</button>
+                                <div 
+                                    className="mono" 
+                                    onClick={() => setShowUnlockPrompt(false)}
+                                    style={{marginTop: '1.5rem', fontSize: '0.7rem', opacity: 0.5, cursor: 'pointer'}}
+                                >ABORT COMMAND</div>
+                            </motion.form>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const DefaultDashboard = ({ currentBrand }) => (
+            <div className="default-dashboard">
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem'}}>
+                    {currentBrand.overview.stats.map((stat, i) => (
+                        <div key={i} className="data-card">
+                            <div className="mono" style={{fontSize: '0.7rem', opacity: 0.5}}>{stat.label}</div>
+                            <div className="heading-condensed" style={{fontSize: '2rem', color: 'var(--accent-color)'}}>{stat.value}</div>
+                        </div>
+                    ))}
+                </div>
+                <div className="data-card" style={{marginTop: '2rem', borderLeft: 'none', border: '1px solid var(--border-color)', background: 'rgba(255,255,255,0.01)'}}>
+                    <div className="heading-condensed" style={{marginBottom: '1rem'}}>MISSION DIRECTIVE</div>
+                    <p style={{lineHeight: 1.6, opacity: 0.8, fontSize: '1.1rem'}}>
+                        This is your central command center for managing all brand campaigns.
+                        Select a campaign from the sidebar to initialize the war room briefing.
+                        Each section contains the strategic pillars, copy banks, and visual directions 
+                        required for dominant DTC performance.
+                    </p>
+                </div>
+            </div>
+        );
+
+        const WorkspaceContent = ({ brand, activeTab, isUnlocked, onUnlockClick }) => {
+            const content = brand.tabs?.[activeTab];
+            const isLocked = brand.lockedConfig?.[activeTab] && !isUnlocked;
+
+            if (isLocked) {
+                return (
+                    <div className="data-card fade-up" style={{
+                        height: '400px', display: 'flex', flexDirection: 'column', 
+                        alignItems: 'center', justifyContent: 'center', position: 'relative',
+                        overflow: 'hidden'
+                    }}>
+                        <div style={{
+                            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                            backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8))',
+                            zIndex: 1
+                        }}></div>
+                        
+                        {/* THE "OPTION C" REDACTED TEASER */}
+                        <div style={{opacity: 0.1, filter: 'blur(2px)', transition: 'all 0.5s ease'}}>
+                            <div className="heading-condensed" style={{fontSize: '2rem'}}>REDACTED STRATEGIC INTEL</div>
+                            <p>This section contains confidential high-performance tactics...</p>
+                            <div style={{marginTop: '2rem', height: '10px', background: '#333', width: '200px'}}></div>
+                        </div>
+
+                        <div style={{zIndex: 2, textAlign: 'center'}}>
+                            <div className="mono" style={{color: 'var(--accent-color)', fontSize: '0.8rem', letterSpacing: '0.2em'}}>— ENCRYPTED —</div>
+                            <h3 className="heading-condensed" style={{fontSize: '2.5rem', margin: '1rem 0'}}>CLEARANCE REQUIRED</h3>
+                            <p style={{opacity: 0.6, maxWidth: '400px', margin: '0 auto 2rem'}}>
+                                This strategic asset is reserved for verified partners. 
+                                Full campaign clearance will reveal life forces, hook banks, and visual pillars.
+                            </p>
+                            <button 
+                                className="heading-condensed" 
+                                onClick={onUnlockClick}
+                                style={{
+                                    padding: '1rem 2rem', background: 'transparent',
+                                    border: '1px solid var(--accent-color)', color: 'var(--accent-color)',
+                                    cursor: 'pointer'
+                                }}
+                            >REQUEST ACCESS</button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (!content) return (
+                <div className="data-card fade-up">
+                    <div className="mono">NO DATA INITIALIZED FOR THIS SECTION</div>
+                    <div className="heading-condensed" style={{fontSize: '1.5rem', marginTop: '1rem'}}>Awaiting Intelligence Briefing</div>
+                </div>
+            );
+
+            if (activeTab === 'overview') {
+                return (
+                    <div className="workspace-grid" style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem'}}>
+                        <div className="data-card fade-up" style={{gridColumn: 'span 2'}}>
+                            <div className="mono">CAMPAIGN THESIS</div>
+                            <div className="heading-condensed" style={{fontSize: '1.8rem', marginTop: '0.5rem'}}>{content.campaignName}</div>
+                            <p style={{marginTop: '1rem', opacity: 0.8, lineHeight: 1.6}}>{content.thesis}</p>
+                        </div>
+                        <div className="data-card fade-up">
+                            <div className="mono">TARGET AVATAR</div>
+                            <p style={{marginTop: '1rem', opacity: 0.8}}>{content.targetAvatar}</p>
+                        </div>
+                        <div className="data-card fade-up">
+                            <div className="mono">INTEL</div>
+                            <div style={{marginTop: '1rem'}}>
+                                <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem'}}>
+                                    <span className="mono" style={{opacity: 0.5}}>DURATION</span>
+                                    <span>{content.duration}</span>
+                                </div>
+                                <div style={{display: 'flex', justifyContent: 'space-between', borderTop: '1px dotted var(--border-color)', paddingTop: '0.5rem'}}>
+                                    <span className="mono" style={{opacity: 0.5}}>KPI TARGET</span>
+                                    <span style={{color: 'var(--accent-color)'}}>{content.keyStats}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (activeTab === 'strategy') {
+                return (
+                    <div className="fade-up">
+                        {content.map((pillar, i) => (
+                            <div key={i} className="data-card" style={{animationDelay: `${i * 100}ms`}}>
+                                <div className="mono">LIFE FORCE 0{i+1}</div>
+                                <p style={{fontSize: '1.2rem', marginTop: '0.5rem', opacity: 0.9}}>{pillar}</p>
+                            </div>
+                        ))}
+                    </div>
+                );
+            }
+
+            if (activeTab === 'headlines') {
+                return (
+                    <div className="fade-up">
+                        <div className="mono" style={{marginBottom: '1.5rem'}}>COPY BANK / ANGLES</div>
+                        {content.map((hook, i) => (
+                            <div key={i} className="data-card" style={{borderLeft: '1px solid var(--border-color)', borderRight: '2px solid var(--accent-color)', paddingRight: '2rem'}}>
+                                <div className="mono" style={{opacity: 0.4}}>HOOK 0{i+1}</div>
+                                <div className="heading-condensed" style={{fontSize: '1.5rem', marginTop: '0.5rem', letterSpacing: '0'}}>{hook}</div>
+                            </div>
+                        ))}
+                    </div>
+                );
+            }
+
+            return (
+               <div className="data-card fade-up">
+                    <div className="mono">SECTION: {activeTab.toUpperCase()}</div>
+                    <div className="heading-condensed" style={{fontSize: '1.5rem', marginTop: '1rem'}}>Intelligence Briefing Deployed</div>
+                    <p style={{marginTop: '1rem', opacity: 0.6}}>This module is currently under strategic development...</p>
+                </div>
+            );
+        };
+
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

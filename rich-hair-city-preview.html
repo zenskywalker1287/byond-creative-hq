@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rich Hair City — Site Preview</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #0f0f0f;
+    color: #eee;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── Sidebar ── */
+  aside {
+    width: 220px;
+    flex-shrink: 0;
+    background: #1a1a1a;
+    border-right: 1px solid #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+
+  .brand {
+    padding: 0 18px 20px;
+    border-bottom: 1px solid #2a2a2a;
+    margin-bottom: 16px;
+  }
+
+  .brand h1 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #E5187F;
+    margin-bottom: 3px;
+  }
+
+  .brand p {
+    font-size: 10px;
+    color: #666;
+    letter-spacing: 0.05em;
+  }
+
+  .section-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #444;
+    padding: 0 18px 8px;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #999;
+    font-size: 12px;
+    text-align: left;
+    width: 100%;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+
+  .nav-btn:hover { background: #222; color: #eee; }
+  .nav-btn.active { color: #E5187F; border-left-color: #E5187F; background: #1f1218; }
+
+  .nav-btn .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #333;
+    flex-shrink: 0;
+  }
+  .nav-btn.active .dot { background: #E5187F; }
+
+  .divider { height: 1px; background: #2a2a2a; margin: 8px 18px; }
+
+  /* ── Viewport controls ── */
+  .viewport-row {
+    display: flex;
+    gap: 4px;
+    padding: 0 18px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid #2a2a2a;
+  }
+
+  .vp-btn {
+    flex: 1;
+    padding: 7px 4px;
+    border: 1px solid #333;
+    background: transparent;
+    color: #666;
+    font-size: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .vp-btn:hover { border-color: #555; color: #ccc; }
+  .vp-btn.active { border-color: #E5187F; color: #E5187F; background: #1f1218; }
+
+  /* ── Main ── */
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .toolbar {
+    padding: 10px 16px;
+    background: #141414;
+    border-bottom: 1px solid #2a2a2a;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .url-bar {
+    flex: 1;
+    background: #1e1e1e;
+    border: 1px solid #2e2e2e;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 11px;
+    color: #666;
+    font-family: monospace;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #2ecc71;
+    box-shadow: 0 0 6px #2ecc7188;
+  }
+
+  .status-label { font-size: 10px; color: #2ecc71; letter-spacing: 0.05em; }
+
+  .preview-wrap {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background: #0a0a0a;
+    overflow: hidden;
+    padding: 16px;
+    transition: all 0.3s;
+  }
+
+  iframe {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    transition: all 0.3s;
+    height: 100%;
+    background: #fff;
+  }
+
+  /* ── Prompt bar ── */
+  .prompt-bar {
+    background: #141414;
+    border-top: 1px solid #2a2a2a;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .prompt-text {
+    flex: 1;
+    font-size: 11px;
+    color: #666;
+    font-style: italic;
+  }
+
+  .copy-btn {
+    background: #E5187F;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .copy-btn:hover { background: #c81470; }
+  .copy-btn.copied { background: #2ecc71; }
+</style>
+</head>
+<body>
+
+<aside>
+  <div class="brand">
+    <h1>Rich Hair City</h1>
+    <p>Live Site Preview</p>
+  </div>
+
+  <div class="section-label">Sections</div>
+
+  <button class="nav-btn active" onclick="scrollTo('top')" data-section="top">
+    <span class="dot"></span> Announcement + Nav
+  </button>
+  <button class="nav-btn" onclick="scrollTo('hero')" data-section="hero">
+    <span class="dot"></span> Hero
+  </button>
+  <button class="nav-btn" onclick="scrollTo('bestsellers')" data-section="bestsellers">
+    <span class="dot"></span> Best Sellers
+  </button>
+  <button class="nav-btn" onclick="scrollTo('brandstory')" data-section="brandstory">
+    <span class="dot"></span> Brand Story
+  </button>
+  <button class="nav-btn" onclick="scrollTo('ticker')" data-section="ticker">
+    <span class="dot"></span> Ingredient Ticker
+  </button>
+  <button class="nav-btn" onclick="scrollTo('allproducts')" data-section="allproducts">
+    <span class="dot"></span> All Products
+  </button>
+  <button class="nav-btn" onclick="scrollTo('bundle')" data-section="bundle">
+    <span class="dot"></span> Bundle Section
+  </button>
+  <button class="nav-btn" onclick="scrollTo('igticker')" data-section="igticker">
+    <span class="dot"></span> IG Ticker
+  </button>
+  <button class="nav-btn" onclick="scrollTo('iggrid')" data-section="iggrid">
+    <span class="dot"></span> IG Grid
+  </button>
+  <button class="nav-btn" onclick="scrollTo('email')" data-section="email">
+    <span class="dot"></span> Email Signup
+  </button>
+  <button class="nav-btn" onclick="scrollTo('footer')" data-section="footer">
+    <span class="dot"></span> Footer
+  </button>
+
+  <div class="divider"></div>
+
+  <div style="padding: 10px 18px 8px; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #444;">Viewport</div>
+  <div class="viewport-row">
+    <button class="vp-btn active" onclick="setViewport('desktop')" id="vp-desktop">Desktop</button>
+    <button class="vp-btn" onclick="setViewport('tablet')" id="vp-tablet">Tablet</button>
+    <button class="vp-btn" onclick="setViewport('mobile')" id="vp-mobile">Mobile</button>
+  </div>
+</aside>
+
+<main>
+  <div class="toolbar">
+    <div class="status-dot"></div>
+    <span class="status-label">LIVE</span>
+    <div class="url-bar">http://localhost:3000</div>
+  </div>
+
+  <div class="preview-wrap" id="previewWrap">
+    <iframe id="frame" src="http://localhost:3000" width="1280"></iframe>
+  </div>
+
+  <div class="prompt-bar">
+    <div class="prompt-text" id="promptText">
+      Rich Hair City homepage — all 11 sections styled. Images go in <code>public/images/</code> to populate hero, brand story, bundle, and IG grid.
+    </div>
+    <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">Copy Note</button>
+  </div>
+</main>
+
+<script>
+  const sections = {
+    top:         { y: 0,    prompt: 'Announcement bar at the very top, then the nav.' },
+    hero:        { y: 80,   prompt: 'Hero section — 600px tall rounded card. Needs hero.jpg in public/images/.' },
+    bestsellers: { y: 720,  prompt: 'Best Sellers horizontal scroll rail with arch-shaped product cards.' },
+    brandstory:  { y: 1240, prompt: 'Brand Story — two-column layout with copy and lifestyle image slot (brand-story.jpg).' },
+    ticker:      { y: 1820, prompt: 'Ingredient ticker — scrolling marquee strip.' },
+    allproducts: { y: 1940, prompt: 'All Products section — blue-tinted with horizontal product scroll.' },
+    bundle:      { y: 2560, prompt: 'Bundle section — "GET YOUR BUNDLE ON GIRL" headline. Needs bundle-lineup.jpg.' },
+    igticker:    { y: 3060, prompt: 'IG Ticker — scrolling social proof strip.' },
+    iggrid:      { y: 3160, prompt: 'IG Grid — 4-col photo mosaic. Needs ig-grid-1/2/3.jpg + lifestyle-1/2/3.jpg.' },
+    email:       { y: 3600, prompt: 'Email signup section.' },
+    footer:      { y: 3800, prompt: 'Footer.' },
+  };
+
+  let currentSection = 'top';
+  let currentViewport = 'desktop';
+
+  const viewports = {
+    desktop: 1280,
+    tablet: 768,
+    mobile: 390,
+  };
+
+  function scrollTo(section) {
+    currentSection = section;
+    const frame = document.getElementById('frame');
+    const info = sections[section];
+
+    // Update active nav button
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.section === section);
+    });
+
+    // Scroll the iframe to the section
+    frame.onload = null;
+    try {
+      frame.contentWindow.scrollTo({ top: info.y, behavior: 'smooth' });
+    } catch(e) {
+      // cross-origin fallback: append hash
+    }
+
+    document.getElementById('promptText').textContent = info.prompt;
+  }
+
+  function setViewport(vp) {
+    currentViewport = vp;
+    const frame = document.getElementById('frame');
+    const wrap = document.getElementById('previewWrap');
+    const w = viewports[vp];
+
+    frame.style.width = w + 'px';
+
+    document.querySelectorAll('.vp-btn').forEach(b => {
+      b.classList.toggle('active', b.id === 'vp-' + vp);
+    });
+
+    const prompts = {
+      desktop: 'Desktop view at 1280px.',
+      tablet: 'Tablet view at 768px — check grid reflow.',
+      mobile: 'Mobile view at 390px — check typography and spacing.',
+    };
+    document.getElementById('promptText').textContent = prompts[vp];
+  }
+
+  function copyPrompt() {
+    const text = document.getElementById('promptText').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy Note'; btn.classList.remove('copied'); }, 1500);
+    });
+  }
+
+  // Auto-scroll iframe when nav button clicked
+  document.getElementById('frame').addEventListener('load', () => {
+    const info = sections[currentSection];
+    try {
+      document.getElementById('frame').contentWindow.scrollTo({ top: info.y });
+    } catch(e) {}
+  });
+</script>
+
+</body>
+</html>
