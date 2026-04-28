@@ -32,10 +32,10 @@ export default function SocialProofCarousel() {
     <section style={{ padding: '120px 32px', background: '#0A0A0A', borderTop: '1px solid rgba(255,0,0,0.08)' }}>
 
       <div style={{ textAlign: 'center', marginBottom: '72px' }}>
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: '#FF0000', letterSpacing: '0.28em', marginBottom: '16px', opacity: 0.85 }}>
+        <div className="section-label" style={{ marginBottom: '16px' }}>
           STRAIGHT FROM THE SOURCE
         </div>
-        <h2 style={{ fontFamily: "'Black Han Sans',sans-serif", fontSize: 'clamp(36px,6vw,72px)', color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 0.88, margin: 0, textShadow: '0 0 40px rgba(255,0,0,0.2)' }}>
+        <h2 style={{ fontFamily: "'Black Han Sans',sans-serif", fontSize: 'clamp(40px,6vw,76px)', color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 0.93, margin: 0, textShadow: '0 0 40px rgba(255,0,0,0.2)' }}>
           DON'T TAKE OUR{' '}
           <span style={{ fontFamily: "'Playfair Display',serif", fontStyle: 'italic', fontWeight: 700, color: '#FFFFFF', textTransform: 'none' }}>
             word

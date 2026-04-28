@@ -224,16 +224,7 @@ export default function ShowcaseCarousel() {
       }}
     >
       {/* Section label */}
-      <div
-        style={{
-          fontFamily: "'Black Han Sans', sans-serif",
-          fontSize: '13px',
-          color: '#FF0000',
-          letterSpacing: '0.3em',
-          textAlign: 'center',
-          marginBottom: '48px',
-        }}
-      >
+      <div className="section-label" style={{ textAlign: 'center', marginBottom: '48px' }}>
         THE WORK
       </div>
 

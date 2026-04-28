@@ -46,15 +46,14 @@ export default function ManifestoSection() {
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
         {/* Section label */}
-        <div style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '11px',
-          color: '#FF0000',
-          letterSpacing: '0.3em',
-          marginBottom: '64px',
-          opacity: inView ? 1 : 0,
-          transition: 'opacity 0.6s ease',
-        }}>
+        <div
+          className="section-label"
+          style={{
+            marginBottom: '64px',
+            opacity: inView ? 1 : 0,
+            transition: 'opacity 0.6s ease',
+          }}
+        >
           MANIFESTO
         </div>
 

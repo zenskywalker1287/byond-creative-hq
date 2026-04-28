@@ -78,10 +78,10 @@ export default function NumbersSection() {
 
       {/* Section label + headline */}
       <div style={{ textAlign: 'center', marginBottom: '60px', padding: '0 32px' }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: '11px', color: '#FF0000', letterSpacing: '0.28em', marginBottom: '16px', opacity: 0.85 }}>
+        <div className="section-label" style={{ marginBottom: '16px' }}>
           PROOF OF WORK — REAL KLAVIYO DATA
         </div>
-        <h2 style={{ fontFamily: "'Black Han Sans',sans-serif", fontSize: 'clamp(40px,6vw,80px)', color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 0.88, margin: 0 }}>
+        <h2 style={{ fontFamily: "'Black Han Sans',sans-serif", fontSize: 'clamp(40px,6vw,76px)', color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 0.93, margin: 0 }}>
           THE NUMBERS DON'T{' '}
           <span style={{ fontFamily: "'Playfair Display',serif", fontStyle: 'italic', fontWeight: 700, color: '#FFFFFF', textTransform: 'none' }}>
             lie.

@@ -64,22 +64,14 @@ export default function ProcessSection() {
 
   return (
     <section id="process" style={{ padding: '100px 32px' }}>
-      <div
-        style={{
-          fontFamily: "'Black Han Sans', sans-serif",
-          fontSize: '13px',
-          color: '#FF0000',
-          letterSpacing: '0.3em',
-          marginBottom: '16px',
-          textAlign: 'center',
-        }}
-      >
+      <div className="section-label" style={{ textAlign: 'center', marginBottom: '16px' }}>
         THE ENGINE
       </div>
       <h2
         style={{
           fontFamily: "'Black Han Sans', sans-serif",
-          fontSize: 'clamp(40px, 6vw, 72px)',
+          fontSize: 'clamp(40px, 6vw, 76px)',
+          lineHeight: 0.93,
           color: '#FFFFFF',
           textAlign: 'center',
           marginBottom: '80px',
