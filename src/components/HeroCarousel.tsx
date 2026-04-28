@@ -4,6 +4,7 @@ const HeroCarousel = ({ images }: { images: string[] }) => {
   const stripRef = useRef<HTMLDivElement>(null)
   const [scrollX, setScrollX] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
+  const [isDecaying, setIsDecaying] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollStart, setScrollStart] = useState(0)
   const velocityRef = useRef(0)
@@ -40,10 +41,7 @@ const HeroCarousel = ({ images }: { images: string[] }) => {
     const max = containerWidth / 2
     const range = max - min
     if (range <= 0) return x
-    let wrapped = x
-    while (wrapped < min) wrapped += range
-    while (wrapped > max) wrapped -= range
-    return wrapped
+    return ((x - min) % range + range) % range + min
   }, [TOTAL_WIDTH, containerWidth])
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
@@ -71,8 +69,13 @@ const HeroCarousel = ({ images }: { images: string[] }) => {
   const handlePointerUp = useCallback(() => {
     setIsDragging(false)
     let v = velocityRef.current * 15
+    if (Math.abs(v) < 0.5) return
+    setIsDecaying(true)
     const decay = () => {
-      if (Math.abs(v) < 0.5) return
+      if (Math.abs(v) < 0.5) {
+        setIsDecaying(false)
+        return
+      }
       v *= 0.95
       setScrollX(prev => wrapScroll(prev + v))
       rafRef.current = requestAnimationFrame(decay)
@@ -110,7 +113,7 @@ const HeroCarousel = ({ images }: { images: string[] }) => {
           display: 'flex',
           alignItems: 'flex-end',
           transform: `translateX(${scrollX}px)`,
-          transition: isDragging ? 'none' : 'transform 0.1s ease-out',
+          transition: (isDragging || isDecaying) ? 'none' : 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
           gap: `${CARD_GAP}px`,
         }}
       >
@@ -139,7 +142,7 @@ const HeroCarousel = ({ images }: { images: string[] }) => {
                 width: CARD_WIDTH,
                 opacity: cardOpacity,
                 transform: `rotate(${isHovered && !isMobile ? 0 : rotation}deg) translateY(${isHovered && !isMobile ? -40 : -lift}px) scale(${isHovered && !isMobile ? 1.12 : scale})`,
-                transition: isDragging ? 'none' : 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease',
+                transition: (isDragging || isDecaying) ? 'none' : 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease',
                 zIndex: isHovered ? 50 : isCenter ? 10 : 1,
                 transformOrigin: 'bottom center',
               }}
