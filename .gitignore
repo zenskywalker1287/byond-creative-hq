@@ -23,4 +23,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Media
+*.jpeg
+*.jpg
+*.png
+!public/portfolio-*.png
+*.mp4
+*.m4a
+*.mov
+
 .env
