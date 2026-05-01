@@ -35,7 +35,7 @@ export default function ZCursor() {
       gsap.fromTo(ring,
         { scale: 1 },
         { scale: 2.5, opacity: 0, duration: 0.4, ease: 'power2.out',
-          onComplete: () => gsap.set(ring, { scale: 1, opacity: 1 }) }
+          onComplete: () => { gsap.set(ring, { scale: 1, opacity: 1 }) } }
       )
     }
 

@@ -9,7 +9,7 @@ import * as THREE from 'three'
 gsap.registerPlugin(CustomEase, ScrollTrigger)
 
 // Physics-grade easing — no generic ease-in-out anywhere
-const EASE_REVEAL  = CustomEase.create('bb-reveal',  '0.22, 1, 0.36, 1')
+CustomEase.create('bb-reveal',  '0.22, 1, 0.36, 1')
 const EASE_LETTERS = CustomEase.create('bb-letters', '0.16, 1, 0.3, 1')
 
 // ─── Balloon Mesh ────────────────────────────────────────────────────────────

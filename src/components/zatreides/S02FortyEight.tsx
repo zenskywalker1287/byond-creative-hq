@@ -149,7 +149,7 @@ export default function S02FortyEight() {
         ease: 'none',
       })
 
-      cards.forEach((card, i) => {
+      cards.forEach((card) => {
         gsap.from(card, {
           y: 60, opacity: 0, duration: 0.5,
           scrollTrigger: {

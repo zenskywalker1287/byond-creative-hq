@@ -12,7 +12,7 @@ type PortfolioItem = {
 
 const items: PortfolioItem[] = Array.from({ length: 46 }, (_, i) => ({
   id: i + 1,
-  image: `/portfolio-${i + 1}.png`,
+  image: `/images/portfolio-${i + 1}.png`,
   brand: ['MADCOW', '4AMSKIN', 'XYKO', 'FLATPACK'][i % 4],
   tag: ['WELCOME FLOW', 'CAMPAIGN', 'ABANDONED CART', 'WINBACK', 'LAUNCH'][i % 5],
   category: 'EMAIL',
